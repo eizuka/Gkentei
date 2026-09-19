@@ -48,10 +48,19 @@ button:focus-visible,select:focus-visible{outline:3px solid var(--focus);outline
 .timer{font-variant-numeric:tabular-nums;font-size:26px;font-weight:700;letter-spacing:.02em;color:var(--accent)}
 .timer.low{color:var(--warn)}
 .timer small{font-size:12px;font-weight:400;color:var(--ink-3);margin-left:6px}
+.timer.quiet{font-size:14px;font-weight:500;color:var(--ink-3)}
+:root{--fs:1}
+:root[data-fs="s"]{--fs:.92} :root[data-fs="l"]{--fs:1.12}
+.resume-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--accent-soft);border:1px solid var(--accent);border-radius:12px;padding:14px 16px;margin-top:20px}
+.resume-banner b{font-size:16px}
+.resume-banner small{display:block;color:var(--ink-2);font-size:13px;margin-top:2px}
+.tsel{display:flex;gap:8px;margin:0 0 8px}
+.tsel .btn{padding:6px 12px;font-size:13px;min-height:36px}
 
 /* start */
 .start{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:28px;margin-top:24px}
 .start h2{margin:0 0 6px;font-size:24px;line-height:1.35}
+.kbd{display:inline-block;border:1px solid var(--line);border-radius:4px;padding:0 5px;font-size:12px;color:var(--ink-3);background:var(--bg)}
 .start p{margin:8px 0;color:var(--ink-2)}
 .start table{border-collapse:collapse;margin:14px 0 18px;width:100%;max-width:520px}
 .start td{padding:6px 10px;border-bottom:1px solid var(--line);font-size:15px}
@@ -72,11 +81,11 @@ select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;backgroun
 .qhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px}
 .qnum{font-size:14px;color:var(--ink-3)}
 .qnum b{font-size:22px;color:var(--ink);font-weight:700;margin-right:4px}
-.qtext{font-size:17px;line-height:1.8;margin:0 0 18px;white-space:pre-wrap}
+.qtext{font-size:calc(17px*var(--fs));line-height:1.8;margin:0 0 18px;white-space:pre-wrap}
 .choices{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.choice{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--paper);color:var(--ink);line-height:1.6}
+.choice{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;border:1px solid var(--line);border-radius:12px;padding:13px 14px;background:var(--paper);color:var(--ink);line-height:1.75;font-size:calc(16px*var(--fs))}
 .choice:hover{border-color:var(--accent);background:var(--accent-soft)}
-.choice .k{flex:0 0 26px;height:26px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--ink-2)}
+.choice .k{flex:0 0 30px;height:30px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--ink-2);margin-top:1px}
 .choice.sel{border-color:var(--accent);background:var(--accent-soft)}
 .choice.sel .k{background:var(--accent);border-color:var(--accent);color:#fff}
 .choice.right{border-color:var(--ok);background:var(--ok-soft)}
@@ -87,12 +96,28 @@ select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;backgroun
 .choice.locked:hover{border-color:var(--line);background:var(--paper)}
 .choice.locked.right:hover{border-color:var(--ok);background:var(--ok-soft)}
 .choice.locked.wrong:hover{border-color:var(--ng);background:var(--ng-soft)}
-.expl{margin-top:16px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--bg)}
-.expl .v{font-weight:700;margin-bottom:6px}
-.expl .v.ok{color:var(--ok)} .expl .v.ng{color:var(--ng)}
-.expl .body{font-size:15px;color:var(--ink-2);line-height:1.75;white-space:pre-wrap}
+.expl{margin-top:16px;border:1px solid var(--line);border-radius:12px;padding:0;background:var(--paper);overflow:hidden}
+.expl .v{font-weight:700;font-size:17px;padding:14px 16px;border-bottom:1px solid var(--line);line-height:1.5}
+.expl .v.ok{color:var(--ok);background:var(--ok-soft)} .expl .v.ng{color:var(--ng);background:var(--ng-soft)}
+.expl .v small{display:block;font-size:14px;font-weight:500;color:var(--ink);margin-top:4px}
+.etools{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--line);background:var(--bg);font-size:12px;color:var(--ink-3)}
+.etools .chip{padding:4px 10px;font-size:12px;min-height:30px}
+.etools .sp{flex:1}
+.sec{border-bottom:1px solid var(--line)}
+.sec:last-child{border-bottom:0}
+.sec .sh{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:var(--paper);border:0;padding:11px 16px;font-size:calc(14px*var(--fs));font-weight:700;color:var(--accent);min-height:44px}
+.sec .sh::before{content:"";width:6px;height:6px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(45deg);transition:transform .15s;flex:0 0 auto;margin-right:2px}
+.sec.closed .sh::before{transform:rotate(-45deg)}
+.sec.closed .sb{display:none}
+.sec .sb{padding:0 16px 14px;font-size:calc(15px*var(--fs));color:var(--ink);line-height:1.85}
+.sec .sb p{margin:0 0 6px}
+.sec .sb .term{font-weight:700;color:var(--ink)}
+.enext{padding:12px 16px;border-top:1px solid var(--line);background:var(--bg)}
+.enext .btn{width:100%}
 .qfoot{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;align-items:center}
 .qfoot .sp{flex:1}
+.qfoot .mob{display:none}
+.qfoot .btn.next{min-width:140px}
 .btn.flagged{background:var(--flag-soft);border-color:var(--flag);color:var(--flag)}
 
 /* navigator */
@@ -136,7 +161,12 @@ select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;backgroun
 .rv .a .lab{display:inline-block;min-width:5em;color:var(--ink-3)}
 .rv .a.you{color:var(--ng)}
 .rv .a.you.right{color:var(--ok)}
-.rv .ex{font-size:14px;color:var(--ink-2);margin-top:8px;padding-top:8px;border-top:1px dashed var(--line);line-height:1.7;white-space:pre-wrap}
+.rv .ex{margin-top:10px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.rv .a{font-size:calc(14px*var(--fs))}
+.rv .q{font-size:calc(15px*var(--fs))}
+.rtools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:4px 0 12px;font-size:13px;color:var(--ink-3)}
+.rtools .chip{padding:4px 10px;font-size:12px;min-height:30px}
+.ractions{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));margin-top:20px}
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px}
 .chip{border:1px solid var(--line);background:var(--paper);color:var(--ink-2);border-radius:20px;padding:5px 12px;font-size:13px}
 .chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
@@ -171,9 +201,16 @@ button{-webkit-tap-highlight-color:transparent}
   .btn.mob.hidden{display:none !important}
   .qcard{padding:18px 16px;padding-bottom:22px}
   .qtext{font-size:16px}
-  .qfoot{position:sticky;bottom:0;background:var(--paper);padding-top:10px;margin-top:14px;border-top:1px solid var(--line)}
-  .qfoot .btn{flex:1;padding:10px 6px;font-size:14px}
+  .qcard{padding-bottom:18px}
+  .qfoot{position:fixed;left:0;right:0;bottom:0;z-index:12;margin:0;display:grid;grid-template-columns:1fr 1fr 1fr 1.8fr;gap:6px;background:var(--paper);padding:8px 10px calc(8px + env(safe-area-inset-bottom));border-top:1px solid var(--line);box-shadow:0 -4px 16px rgba(0,0,0,.08)}
+  .qfoot .btn{padding:8px 4px;font-size:13px;min-height:50px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;line-height:1.2}
+  .qfoot .btn .ic{font-size:18px;line-height:1}
+  .qfoot .btn.next{font-size:15px;font-weight:700}
   .qfoot .sp{display:none}
+  .qfoot .mob{display:flex}
+  .exam{padding-bottom:84px}
+  .nav{bottom:calc(66px + env(safe-area-inset-bottom));max-height:65vh}
+  .btn.mob{display:none !important}
   .nav{position:fixed;left:0;right:0;bottom:0;top:auto;border-radius:16px 16px 0 0;max-height:75vh;overflow:auto;transform:translateY(105%);transition:transform .2s;z-index:15;box-shadow:0 -6px 24px rgba(0,0,0,.18)}
   .nav.open{transform:translateY(0)}
   .grid{grid-template-columns:repeat(8,1fr)}
@@ -202,6 +239,10 @@ button{-webkit-tap-highlight-color:transparent}
 
 <!-- ===== 開始画面 ===== -->
 <section class="start" id="view-start">
+  <div class="resume-banner hidden" id="resume-banner">
+    <div><b id="rb-title">前回の続きがあります</b><small id="rb-sub"></small></div>
+    <button class="btn primary" id="btn-resume-top">続きから再開</button>
+  </div>
   <h2>G検定 模擬試験</h2>
   <p>公式シラバスの6分野を均等に扱う問題集。本番形式では収録問題から145問を無作為に抽出し、本番（オンライン試験：100分・145問程度）と同じ1問あたり約41秒のペースで解く。分野別では選んだ分野の全問を解ける。</p>
   <div class="seg" role="radiogroup" aria-label="受験形式">
@@ -211,6 +252,7 @@ button{-webkit-tap-highlight-color:transparent}
   </div>
   <p class="note hidden" id="wrong-note"></p>
   <div id="theme-box" class="themes hidden">
+    <div class="tsel"><button class="btn" id="t-all">すべて選択</button><button class="btn" id="t-none">すべて解除</button></div>
     <div class="tlist" id="tlist"></div>
   </div>
   <table>
@@ -241,7 +283,7 @@ button{-webkit-tap-highlight-color:transparent}
     <button class="btn primary" id="btn-start">試験を開始する</button>
     <button class="btn hidden" id="btn-resume">前回の続きから再開する</button>
   </div>
-  <p class="note">解答の途中経過はこのブラウザに保存される。ページを閉じても再開できるが、他の端末には引き継がれない。</p>
+  <p class="note">解答の途中経過はこのブラウザに保存される。ページを閉じても再開できるが、他の端末には引き継がれない。<br>PCでは <span class="kbd">1</span>〜<span class="kbd">4</span> で選択、<span class="kbd">←</span><span class="kbd">→</span> で移動、<span class="kbd">F</span> で見直し。スマホでは左右スワイプで移動できる。</p>
 </section>
 
 <!-- ===== 試験画面 ===== -->
@@ -253,12 +295,18 @@ button{-webkit-tap-highlight-color:transparent}
     </div>
     <p class="qtext" id="q-text"></p>
     <ul class="choices" id="q-choices"></ul>
-    <div class="expl hidden" id="q-expl"><div class="v" id="e-v"></div><div class="body" id="e-body"></div></div>
+    <div class="expl hidden" id="q-expl">
+      <div class="v" id="e-v"></div>
+      <div class="etools" id="e-tools"></div>
+      <div id="e-body"></div>
+      <div class="enext"><button class="btn primary" id="btn-next2">次の問題へ</button></div>
+    </div>
     <div class="qfoot">
-      <button class="btn" id="btn-prev">前の問題</button>
-      <button class="btn" id="btn-flag">見直す</button>
+      <button class="btn" id="btn-prev"><span class="ic">‹</span>前へ</button>
+      <button class="btn mob" id="btn-list2"><span class="ic">▦</span>一覧</button>
+      <button class="btn" id="btn-flag"><span class="ic">⚑</span><span id="flag-label">見直す</span></button>
       <span class="sp"></span>
-      <button class="btn primary" id="btn-next">次の問題</button>
+      <button class="btn primary next" id="btn-next">次へ<span class="ic">›</span></button>
     </div>
   </div>
   <aside class="nav">
@@ -282,7 +330,13 @@ button{-webkit-tap-highlight-color:transparent}
     <thead><tr><th>分野</th><th class="n">正答</th><th style="width:40%">正答率</th></tr></thead>
     <tbody id="r-dom"></tbody>
   </table>
-  <h3 style="margin:0;font-size:17px">解説</h3>
+  <div class="ractions">
+    <button class="btn primary" id="btn-review-wrong">今回の誤答を復習する</button>
+    <button class="btn" id="btn-again">同じ条件でもう一度</button>
+    <button class="btn" id="btn-home">開始画面へ</button>
+  </div>
+  <h3 style="margin:20px 0 0;font-size:17px">解説</h3>
+  <div class="rtools" id="r-tools"></div>
   <div class="filters">
     <button class="chip on" data-f="all">すべて</button>
     <button class="chip" data-f="ng">誤答・未解答のみ</button>
@@ -290,7 +344,7 @@ button{-webkit-tap-highlight-color:transparent}
   </div>
   <div class="review" id="r-list"></div>
   <div class="opts" style="margin-top:20px">
-    <button class="btn primary" id="btn-retry">もう一度受ける</button>
+    <button class="btn" id="btn-retry">開始画面へ</button>
   </div>
   <p class="note">本模試は公式テキスト等で確立した基礎事項に基づく独自作成問題であり、実際の試験問題の再現ではない。合格基準点は公表されていないため、目安として8割以上の正答を目標とする。</p>
 </section>
@@ -1107,6 +1161,39 @@ const WKEY = "gkentei_wrong";
 function loadWrong(){ try{ const w=localStorage.getItem(WKEY); return w?JSON.parse(w):[]; }catch(e){ return []; } }
 function saveWrong(a){ try{ localStorage.setItem(WKEY, JSON.stringify(a)); }catch(e){} }
 let S = null; // {order, ans, flag, cur, limit, start, elapsed(offset), finished}
+/* ===== 表示設定（端末に保存） ===== */
+const PKEY="gkentei_prefs";
+let P={fs:"m", emode:"all"};
+try{ const x=localStorage.getItem(PKEY); if(x) P=Object.assign(P,JSON.parse(x)); }catch(e){}
+function savePrefs(){ try{ localStorage.setItem(PKEY,JSON.stringify(P)); }catch(e){} document.documentElement.setAttribute("data-fs",P.fs); }
+savePrefs();
+/* 解説文を【見出し】ごとのブロックに変換 */
+function esc(t){ return t.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function renderExpl(text, mode){
+  const parts=[]; const re=/【([^】]+)】/g; let m, last=0, lastTitle=null;
+  while((m=re.exec(text))){ if(lastTitle!==null) parts.push({t:lastTitle,b:text.slice(last,m.index)}); else if(text.slice(0,m.index).trim()) parts.push({t:"解説",b:text.slice(0,m.index)}); lastTitle=m[1]; last=re.lastIndex; }
+  if(lastTitle!==null) parts.push({t:lastTitle,b:text.slice(last)}); else parts.push({t:"解説",b:text});
+  return parts.map((p,idx)=>{
+    let body=esc(p.b.trim());
+    if(p.t.startsWith("関連用語")){ body=body.split(/(?<=。)/).map(x=>x.replace(/^([^＝]{1,30})＝/,'<span class="term">$1</span>＝')).join(""); }
+    const open = mode==="all" || idx===0;
+    return `<div class="sec${open?"":" closed"}"><button class="sh" type="button">${esc(p.t)}</button><div class="sb"><p>${body}</p></div></div>`;
+  }).join("");
+}
+function bindSections(root){ root.querySelectorAll(".sec .sh").forEach(h=>{ h.onclick=()=>h.parentElement.classList.toggle("closed"); }); }
+function toolsHTML(){
+  return `<span>表示</span>
+    <button class="chip${P.emode==="all"?" on":""}" data-em="all">すべて展開</button>
+    <button class="chip${P.emode==="first"?" on":""}" data-em="first">解説のみ</button>
+    <span class="sp"></span><span>文字</span>
+    <button class="chip${P.fs==="s"?" on":""}" data-fs="s">小</button>
+    <button class="chip${P.fs==="m"?" on":""}" data-fs="m">中</button>
+    <button class="chip${P.fs==="l"?" on":""}" data-fs="l">大</button>`;
+}
+function bindTools(root, rerender){
+  root.querySelectorAll("[data-em]").forEach(b=>b.onclick=()=>{ P.emode=b.dataset.em; savePrefs(); rerender(); });
+  root.querySelectorAll("[data-fs]").forEach(b=>b.onclick=()=>{ P.fs=b.dataset.fs; savePrefs(); rerender(); });
+}
 let tick = null;
 
 const $ = id => document.getElementById(id);
@@ -1158,6 +1245,8 @@ function buildThemes(){
     box.insertAdjacentHTML("beforeend",`<label class="tchk"><input type="checkbox" value="${k}" ${k===0?"checked":""}><span>${name}</span><span class="cnt">${n}問</span></label>`);
   });
   box.querySelectorAll("input").forEach(i=>i.onchange=refreshInfo);
+  $("t-all").onclick=()=>{ box.querySelectorAll("input").forEach(i=>i.checked=true); refreshInfo(); };
+  $("t-none").onclick=()=>{ box.querySelectorAll("input").forEach(i=>i.checked=false); refreshInfo(); };
 }
 document.querySelectorAll(".segbtn").forEach(b=>{
   b.onclick=()=>{
@@ -1176,7 +1265,19 @@ function start(){
   const n=order.length;
   S = {order, ans:Array(n).fill(null), flag:Array(n).fill(false), cur:0, limit, start:Date.now(), elapsed:0, finished:false,
        form:FORM, domains:selectedDomains(), perm:order.map(()=>shuffled(4)),
-       reveal: FORM!=="full" && $("reveal").value==="1", locked:Array(n).fill(false)};
+       reveal: FORM!=="full" && $("reveal").value==="1", locked:Array(n).fill(false),
+       cfg:{form:FORM, domains:selectedDomains(), mult, shuffle:$("shuffle").value, reveal:$("reveal").value, pool: FORM==="wrong"?pool.slice():null}};
+  save(); beginExam();
+}
+/* 任意の問題集合で開始（復習・再挑戦用） */
+function startWith(pool, cfg){
+  if(!pool.length) return;
+  const limit = cfg.mult>0 ? Math.round(pool.length*SEC_PER_Q*cfg.mult) : 0;
+  let order = cfg.shuffle==="1" ? shuffled(pool.length).map(i=>pool[i]) : pool.slice();
+  const n=order.length;
+  S = {order, ans:Array(n).fill(null), flag:Array(n).fill(false), cur:0, limit, start:Date.now(), elapsed:0, finished:false,
+       form:cfg.form, domains:cfg.domains, perm:order.map(()=>shuffled(4)),
+       reveal: cfg.form!=="full" && cfg.reveal==="1", locked:Array(n).fill(false), cfg:Object.assign({},cfg,{pool: cfg.form==="wrong"?pool.slice():null})};
   save(); beginExam();
 }
 function examTitle(){
@@ -1191,8 +1292,8 @@ function resume(){
 }
 function permOf(i){ return (S.perm && S.perm[i]) ? S.perm[i] : [0,1,2,3]; }
 function beginExam(){
-  show("exam"); $("h-title").textContent=examTitle(); $("btn-list").classList.remove("hidden");
-  buildGrid(); render(); startTimer();
+  show("exam"); $("h-title").textContent=examTitle();
+  buildGrid(); render(); startTimer(); window.scrollTo(0,0);
 }
 const N = () => S.order.length;
 /* スマホ用の一覧ドロワー */
@@ -1203,6 +1304,7 @@ function openNav(o){
   if(!o && bg) bg.remove();
 }
 $("btn-list").onclick=()=>openNav(!document.querySelector(".nav").classList.contains("open"));
+$("btn-list2").onclick=$("btn-list").onclick;
 
 /* ===== タイマー ===== */
 function startTimer(){
@@ -1217,9 +1319,10 @@ function startTimer(){
       if(rem<=0){ finish(true); }
     }else{
       t.innerHTML = fmt(e) + '<small>経過</small>';
-      t.classList.remove("low");
+      t.classList.remove("low"); t.classList.add("quiet");
     }
   };
+  t.classList.toggle("quiet", S.limit===0);
   upd(); tick=setInterval(upd,500);
 }
 
@@ -1243,7 +1346,7 @@ function render(){
     b.innerHTML=`<span class="k">${"アイウエ"[k]}</span><span>${c}</span>`;
     b.onclick=()=>{
       if(locked) return;
-      if(S.reveal){ S.ans[i]=o; S.locked[i]=true; }
+      if(S.reveal){ S.ans[i]=o; S.locked[i]=true; render.scrollToExpl=true; }
       else { S.ans[i]=(S.ans[i]===o?null:o); }
       save(); render();
     };
@@ -1252,14 +1355,20 @@ function render(){
   const ex=$("q-expl");
   if(locked){
     const ok=S.ans[i]===q.a;
-    $("e-v").textContent = ok ? "正解" : `不正解　正解は ${"アイウエ"[pm.indexOf(q.a)]}．${q.c[q.a]}`;
+    $("e-v").innerHTML = (ok ? "正解" : "不正解") + `<small>正解：${"アイウエ"[pm.indexOf(q.a)]}．${esc(q.c[q.a])}</small>`;
     $("e-v").className="v "+(ok?"ok":"ng");
-    $("e-body").textContent=q.e; ex.classList.remove("hidden");
+    $("e-tools").innerHTML=toolsHTML(); bindTools($("e-tools"), ()=>render());
+    $("e-body").innerHTML=renderExpl(q.e, P.emode); bindSections($("e-body"));
+    const last=(i===N()-1);
+    $("btn-next2").textContent = last ? "試験を終了して採点する" : "次の問題へ";
+    $("btn-next2").onclick = last ? ()=>$("btn-finish").onclick() : ()=>{ S.cur++; save(); render(); window.scrollTo({top:0}); };
+    ex.classList.remove("hidden");
+    if(render.scrollToExpl){ render.scrollToExpl=false; setTimeout(()=>ex.scrollIntoView({behavior:"smooth",block:"start"}),60); }
   } else ex.classList.add("hidden");
   $("btn-prev").disabled=(i===0);
-  $("btn-next").textContent=(i===N()-1?"最後の問題です":"次の問題");
+  $("btn-next").innerHTML=(i===N()-1?'最後<span class="ic">›</span>':'次へ<span class="ic">›</span>');
   $("btn-next").disabled=(i===N()-1);
-  const f=$("btn-flag"); f.textContent=S.flag[i]?"見直し解除":"見直す"; f.classList.toggle("flagged",S.flag[i]);
+  const f=$("btn-flag"); $("flag-label").textContent=S.flag[i]?"解除":"見直す"; f.classList.toggle("flagged",S.flag[i]);
   updateGrid();
 }
 function buildGrid(){
@@ -1280,8 +1389,32 @@ function updateGrid(){
   }
   $("st-done").textContent=d; $("st-flag").textContent=f;
 }
-$("btn-prev").onclick=()=>{ if(S.cur>0){S.cur--; save(); render();} };
-$("btn-next").onclick=()=>{ if(S.cur<N()-1){S.cur++; save(); render();} };
+$("btn-prev").onclick=()=>{ if(S.cur>0){S.cur--; save(); render(); window.scrollTo({top:0});} };
+$("btn-next").onclick=()=>{ if(S.cur<N()-1){S.cur++; save(); render(); window.scrollTo({top:0});} };
+/* キーボード操作（PC） */
+document.addEventListener("keydown",(e)=>{
+  if(!S || S.finished || views.exam.classList.contains("hidden")) return;
+  if(!$("modal").classList.contains("hidden")) return;
+  const tag=(e.target.tagName||"").toLowerCase(); if(tag==="input"||tag==="select"||tag==="textarea") return;
+  const k=e.key;
+  if(k==="ArrowRight"){ $("btn-next").onclick(); e.preventDefault(); }
+  else if(k==="ArrowLeft"){ $("btn-prev").onclick(); e.preventDefault(); }
+  else if(k==="f"||k==="F"){ $("btn-flag").onclick(); }
+  else if(/^[1-4]$/.test(k) || /^[a-dA-D]$/.test(k)){
+    const idx = /^[1-4]$/.test(k) ? parseInt(k,10)-1 : "abcd".indexOf(k.toLowerCase());
+    const btns=$("q-choices").querySelectorAll(".choice"); if(btns[idx]) btns[idx].click();
+  }
+});
+/* スワイプ操作（スマホ） */
+(function(){
+  let sx=0, sy=0, t0=0;
+  const card=document.querySelector(".qcard");
+  card.addEventListener("touchstart",(e)=>{ const t=e.touches[0]; sx=t.clientX; sy=t.clientY; t0=Date.now(); },{passive:true});
+  card.addEventListener("touchend",(e)=>{
+    const t=e.changedTouches[0]; const dx=t.clientX-sx, dy=t.clientY-sy;
+    if(Date.now()-t0<600 && Math.abs(dx)>70 && Math.abs(dy)<50){ if(dx<0) $("btn-next").onclick(); else $("btn-prev").onclick(); }
+  },{passive:true});
+})();
 $("btn-flag").onclick=()=>{ S.flag[S.cur]=!S.flag[S.cur]; save(); render(); };
 $("btn-next-unanswered").onclick=()=>{
   for(let k=1;k<=N();k++){ const j=(S.cur+k)%N(); if(S.ans[j]===null){ S.cur=j; save(); render(); return; } }
@@ -1328,8 +1461,11 @@ function showResult(){
     tb.insertAdjacentHTML("beforeend",`<tr><td>${DOMAINS[k]}</td><td class="n">${d.ok} / ${d.n}</td><td><div class="barwrap"><div class="barfill${p<70?" weak":""}" style="width:${p}%"></div></div></td></tr>`);
   });
   const list=$("r-list");
+  let curF="all";
+  const drawTools=()=>{ $("r-tools").innerHTML=toolsHTML(); bindTools($("r-tools"), ()=>{ drawTools(); draw(curF); }); };
+  drawTools();
   const draw=(f)=>{
-    list.innerHTML="";
+    curF=f; list.innerHTML="";
     rows.filter(r=> f==="all" || (f==="ng"&&!r.ok) || (f==="flag"&&r.flag)).forEach(r=>{
       const pm=permOf(r.i);
       const lab=o=>"アイウエ"[pm.indexOf(o)]+"．";
@@ -1340,25 +1476,47 @@ function showResult(){
           <p class="q">${r.q.q}</p>
           <div class="a you${r.ok?" right":""}"><span class="lab">あなた</span>${you}</div>
           <div class="a"><span class="lab">正解</span>${lab(r.q.a)}${r.q.c[r.q.a]}</div>
-          <div class="ex">${r.q.e}</div>
+          <div class="ex">${renderExpl(r.q.e, P.emode)}</div>
         </div>`);
     });
+    bindSections(list);
     if(!list.children.length) list.innerHTML='<p class="note">該当する問題はありません。</p>';
   };
+  const wrongNow = rows.filter(r=>!r.ok).map(r=>S.order[r.i]);
+  $("btn-review-wrong").disabled = wrongNow.length===0;
+  $("btn-review-wrong").textContent = wrongNow.length ? `今回の誤答を復習する（${wrongNow.length}問）` : "今回の誤答はありません";
+  $("btn-review-wrong").onclick=()=>{ const cfg=Object.assign({form:"wrong",domains:DOMAINS.map((_,k)=>k),mult:0,shuffle:"1",reveal:"1"}, S.cfg||{}, {form:"wrong", mult:0, reveal:"1"}); startWith(wrongNow, cfg); };
+  $("btn-again").onclick=()=>{
+    const cfg=S.cfg; if(!cfg){ $("btn-retry").onclick(); return; }
+    FORM=cfg.form;
+    const pool = cfg.form==="full" ? examSample() : cfg.form==="wrong" ? (cfg.pool||loadWrong()) : BANK.map((q,i)=>cfg.domains.includes(q.d)?i:-1).filter(i=>i>=0);
+    startWith(pool, cfg);
+  };
+  $("btn-home").onclick=()=>$("btn-retry").onclick();
   draw("all");
   document.querySelectorAll(".chip").forEach(ch=>{
     ch.onclick=()=>{ document.querySelectorAll(".chip").forEach(c=>c.classList.remove("on")); ch.classList.add("on"); draw(ch.dataset.f); };
   });
 }
-$("btn-retry").onclick=()=>{ clear(); S=null; $("timer").textContent=""; $("h-title").textContent="G検定 模擬試験"; show("start"); $("btn-resume").classList.add("hidden"); refreshInfo(); };
+$("btn-retry").onclick=()=>{ clear(); S=null; $("timer").textContent=""; $("h-title").textContent="G検定 模擬試験"; show("start"); $("btn-resume").classList.add("hidden"); $("resume-banner").classList.add("hidden"); refreshInfo(); window.scrollTo(0,0); };
 
 /* ===== 初期化 ===== */
 $("btn-start").onclick=start;
 $("btn-resume").onclick=resume;
+$("btn-resume-top").onclick=resume;
 (function init(){
   const s=load();
-  if(s && !s.finished){ $("btn-resume").classList.remove("hidden"); }
-  else if(s && s.finished){ $("btn-resume").textContent="前回の採点結果を見る"; $("btn-resume").classList.remove("hidden"); }
+  if(s && !s.finished){
+    $("btn-resume").classList.remove("hidden");
+    const done=s.ans.filter(a=>a!==null).length;
+    S=s; $("rb-title").textContent="前回の続きがあります"; $("rb-sub").textContent=`${examTitle()}　${done}／${s.order.length}問 解答済み`; S=null;
+    $("btn-resume-top").textContent="続きから再開"; $("resume-banner").classList.remove("hidden");
+  }
+  else if(s && s.finished){
+    $("btn-resume").textContent="前回の採点結果を見る"; $("btn-resume").classList.remove("hidden");
+    S=s; $("rb-title").textContent="前回の採点結果"; $("rb-sub").textContent=examTitle(); S=null;
+    $("btn-resume-top").textContent="結果を見る"; $("resume-banner").classList.remove("hidden");
+  }
   buildThemes(); refreshInfo(); show("start");
 })();
 

@@ -1,5 +1,5 @@
 /* G検定模試 Service Worker: 初回アクセス後はオフラインでも動作する */
-const CACHE = "gkentei-v1";
+const CACHE = "gkentei-v2";
 const ASSETS = ["./", "./index.html", "./manifest.json", "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", (e) => {
