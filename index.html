@@ -291,6 +291,7 @@ button{-webkit-tap-highlight-color:transparent}
     <div class="hright">
       <div class="timer" id="timer"></div>
       <button class="btn small mob hidden" id="btn-list">一覧</button>
+      <button class="btn small hidden" id="btn-back-gloss">← 単語帳へ</button>
       <button class="btn small hidden" id="btn-pause">中断</button>
     </div>
   </div>
@@ -426,6 +427,7 @@ button{-webkit-tap-highlight-color:transparent}
     <tbody id="r-dom"></tbody>
   </table>
   <div class="ractions">
+    <button class="btn primary hidden" id="btn-back-gloss2">← 単語帳の元の位置へ戻る</button>
     <button class="btn primary" id="btn-review-wrong">今回の誤答を復習する</button>
     <button class="btn" id="btn-again">同じ条件でもう一度</button>
     <button class="btn" id="btn-home">開始画面へ</button>
@@ -1708,6 +1710,7 @@ const WKEY = "gkentei_wrong";
 function loadWrong(){ try{ const w=localStorage.getItem(WKEY); return w?JSON.parse(w):[]; }catch(e){ return []; } }
 function saveWrong(a){ try{ localStorage.setItem(WKEY, JSON.stringify(a)); }catch(e){} }
 let S = null; // {order, ans, flag, cur, limit, start, elapsed(offset), finished}
+let RETURN = null; // 単語帳から関連問題へ移ったときの戻り先
 /* ===== 表示設定（端末に保存） ===== */
 const PKEY="gkentei_prefs";
 let P={fs:"m", emode:"all", level:"both"};
@@ -1825,6 +1828,7 @@ function start(){
     return;
   }
   const pool = FORM==="full" ? examSample() : poolIdx(); if(!pool.length) return;
+  RETURN=null;
   const mult=parseFloat($("mode").value);
   const limit = mult>0 ? Math.round(pool.length*SEC_PER_Q*mult) : 0;
   let order = $("shuffle").value==="1" ? shuffled(pool.length).map(i=>pool[i]) : pool.slice();
@@ -1858,7 +1862,7 @@ function resume(){
 }
 function permOf(i){ return (S.perm && S.perm[i]) ? S.perm[i] : [0,1,2,3]; }
 function beginExam(){
-  show("exam"); $("h-title").textContent=examTitle(); $("btn-pause").classList.remove("hidden");
+  show("exam"); $("h-title").textContent=examTitle(); $("btn-pause").classList.remove("hidden"); syncBackBtn();
   buildGrid(); render(); startTimer(); window.scrollTo(0,0);
 }
 /* 中断：経過時間を止めて保存し、開始画面へ戻る（再開バナーから続きを解ける） */
@@ -1866,7 +1870,7 @@ function pauseExam(){
   if(!S || S.finished) return;
   clearInterval(tick);
   S.elapsed=elapsed(); S.start=null; save();
-  openNav(false); $("btn-pause").classList.add("hidden"); $("timer").textContent=""; $("h-title").textContent="G検定 模擬試験";
+  openNav(false); $("btn-pause").classList.add("hidden"); $("timer").textContent=""; $("h-title").textContent="G検定 模擬試験"; RETURN=null; syncBackBtn();
   showStartBanner(); show("start"); window.scrollTo(0,0);
 }
 $("btn-pause").onclick=pauseExam; $("btn-pause2").onclick=pauseExam;
@@ -2030,7 +2034,7 @@ function showResult(){
   const pct=Math.round(score/N()*100);
   $("r-score").textContent=score; $("r-pct").textContent=`（正答率 ${pct}%）`;
   document.querySelector(".score small").textContent=`/ ${N()}問`;
-  $("h-title").textContent=examTitle(); $("btn-list").classList.add("hidden"); $("btn-pause").classList.add("hidden"); openNav(false);
+  $("h-title").textContent=examTitle(); $("btn-list").classList.add("hidden"); $("btn-pause").classList.add("hidden"); openNav(false); syncBackBtn();
   const per=S.elapsed/N();
   $("r-meta").textContent=`所要時間 ${fmt(S.elapsed)}（1問あたり ${per.toFixed(0)}秒／本番目安41秒）`+(S.timeout?"　※制限時間切れにより自動終了":"");
   const tb=$("r-dom"); tb.innerHTML="";
@@ -2077,7 +2081,7 @@ function showResult(){
     ch.onclick=()=>{ document.querySelectorAll(".chip").forEach(c=>c.classList.remove("on")); ch.classList.add("on"); draw(ch.dataset.f); };
   });
 }
-$("btn-retry").onclick=()=>{ clear(); S=null; $("timer").textContent=""; $("h-title").textContent="G検定 模擬試験"; show("start"); $("btn-resume").classList.add("hidden"); $("resume-banner").classList.add("hidden"); refreshInfo(); window.scrollTo(0,0); };
+$("btn-retry").onclick=()=>{ RETURN=null; syncBackBtn(); clear(); S=null; $("timer").textContent=""; $("h-title").textContent="G検定 模擬試験"; show("start"); $("btn-resume").classList.add("hidden"); $("resume-banner").classList.add("hidden"); refreshInfo(); window.scrollTo(0,0); };
 
 /* ===== 初期化 ===== */
 $("btn-start").onclick=start;
@@ -2165,6 +2169,7 @@ function drawGloss(){
     el.querySelector("[data-kn]").onclick=()=>{ if(KNOWN.has(g.t)) KNOWN.delete(g.t); else KNOWN.add(g.t); saveKnown(); const y=window.scrollY; drawGloss(); window.scrollTo(0,y); };
     const rb=el.querySelector("[data-rel]"); if(rb) rb.onclick=()=>{
       const ex=load(); if(ex && !ex.finished){ if(!confirm("中断中の試験があります。破棄して関連問題を始めますか？")) return; }
+      RETURN={n:g.n, q:$("g-q").value, dom:$("g-dom").value, order:$("g-order").value, mode:$("g-mode").value, hide:$("g-hide").checked, idx:gIdx, y:window.scrollY};
       startWith(g.r.filter(i=>i<BANK.length), {form:"theme",domains:DOMAINS.map((_,k)=>k),mult:0,shuffle:"0",reveal:"1"});
     };
   });
@@ -2172,6 +2177,19 @@ function drawGloss(){
 $("g-dom").innerHTML+=DOMAINS.map((d,k)=>`<option value="${k}">${d}</option>`).join("");
 ["g-q","g-dom","g-order","g-mode","g-hide"].forEach(id=>{ $(id).addEventListener(id==="g-q"?"input":"change",()=>{ if(id==="g-q"||id==="g-order") gIdx=null; drawGloss(); buildIndexes(); }); });
 $("g-top").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
+/* 関連問題からの戻り */
+function syncBackBtn(){ const on=!!RETURN; $("btn-back-gloss").classList.toggle("hidden",!on); $("btn-back-gloss2").classList.toggle("hidden",!on); }
+function returnToGloss(){
+  const R=RETURN; if(!R) return;
+  if(S && !S.finished){ clearInterval(tick); S.elapsed=elapsed(); S.start=null; save(); }
+  openNav(false); $("btn-pause").classList.add("hidden"); $("timer").textContent="";
+  RETURN=null; syncBackBtn();
+  $("g-q").value=R.q; $("g-dom").value=R.dom; $("g-order").value=R.order; $("g-mode").value=R.mode; $("g-hide").checked=R.hide; gIdx=R.idx;
+  drawGloss(); buildIndexes(); showStudy("gloss");
+  showStartBanner();
+  setTimeout(()=>{ if(document.getElementById("g-"+R.n)) jumpTo("g-"+R.n,true); else window.scrollTo(0,R.y); },30);
+}
+$("btn-back-gloss").onclick=returnToGloss; $("btn-back-gloss2").onclick=returnToGloss;
 $("go-gloss").onclick=()=>{ drawGloss(); buildIndexes(); showStudy("gloss"); };
 
 $("btn-resume-top").onclick=resume;
